@@ -1,17 +1,21 @@
 from typing import Optional
+
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
-
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_squared_error
+from sklearn.cluster import KMeans
+from sklearn.svm import SVC
+from sklearn.decomposition import PCA
 
+import matplotlib.pyplot as plt
 import logging
 import pandas as pd
-
+import numpy as np
 
 def clean_data(games: pd.DataFrame) -> Optional[str]:
     logger = logging.getLogger(__name__)
@@ -202,14 +206,46 @@ def naive_bayes() -> int:
 
 def k_means_clustering() -> int:
     logger = logging.getLogger(__name__)
+    np.random.seed(0)
+    X = np.random.rand(100, 2)
+    kmeans = KMeans(n_clusters=3, random_state=0)
+    kmeans.fit(X)
+
+    labels = kmeans.labels_
+    centers = kmeans.cluster_centers_
+    plt.scatter(X[:, 0], X[:, 1], c=labels)
+    plt.scatter(centers[:, 0], centers[:, 1], c='red', marker='x')
+    plt.title('K-means Clustering')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.show()
     logger.info("k_means_clustering")
     return 0
 
 
-def support_vector_machine() -> int:
+def support_vector_machine() -> float:
     logger = logging.getLogger(__name__)
     logger.info("support_vector_machine")
-    return 0
+    X = np.array([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [1, 5], [2, 4], [4, 2], [5, 1]])
+
+    # Target labels
+    y = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1])
+
+    # Create an SVM classifier
+    svm = SVC(kernel='linear')
+
+    # Train the SVM classifier
+    svm.fit(X, y)
+
+    # Make predictions on new data points
+    new_points = np.array([[3.5, 3.5], [1, 3], [5, 4]])
+    predictions = svm.predict(new_points)
+    logger.info(f"Predictions: {predictions}")
+
+    # Calculate accuracy of the classifier (for illustrative purposes only)
+    accuracy = accuracy_score(y, svm.predict(X))
+    logger.info(f"Accuracy:, {accuracy}")
+    return accuracy
 
 
 def principal_component_analysis() -> int:

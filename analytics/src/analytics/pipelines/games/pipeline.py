@@ -44,5 +44,23 @@ def create_pipeline(**kwargs) -> Pipeline:
             inputs=[],
             outputs="random_forest_result",
             name="rf",
+        ),
+        node(
+            func=fn.naive_bayes,
+            inputs=[],
+            outputs="nb_result",
+            name="nb",
+        ),
+        node(
+            func=fn.k_means_clustering,
+            inputs=[],
+            outputs="kmm_result",
+            name="kmm",
+        ),
+        node(
+            func=fn.support_vector_machine,
+            inputs=[],
+            outputs="svm_result",
+            name="svm",
         )
     ])

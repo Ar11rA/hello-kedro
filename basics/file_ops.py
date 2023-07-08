@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas_series_examples as pd
 import xml.etree.ElementTree as ET
 
 
